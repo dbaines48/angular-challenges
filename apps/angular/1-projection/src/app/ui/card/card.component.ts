@@ -8,6 +8,7 @@ import {
   output,
   TemplateRef,
 } from '@angular/core';
+import { ItemRowDirective } from '../../directive/item-row.directive';
 
 @Component({
   selector: 'app-card',
@@ -22,8 +23,9 @@ import {
         <ng-template
           *ngTemplateOutlet="
             rowTemplate();
-            context: { $implicit: item }
-          "></ng-template>
+            context: { $implicit: item, character: '**' }
+          "
+          ></ng-template>
       }
     </section>
 
@@ -42,7 +44,8 @@ export class CardComponent<T extends { id: number }> {
 
   public readonly addNew = output();
 
-  public readonly rowTemplate = contentChild.required('itemRow', {
+
+  public readonly rowTemplate = contentChild.required(ItemRowDirective, {
     read: TemplateRef,
   });
 

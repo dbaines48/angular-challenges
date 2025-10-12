@@ -12,6 +12,7 @@ import {
 import { TeacherStore } from '../../data-access/teacher.store';
 import { CardComponent } from '../../ui/card/card.component';
 import { ListItemComponent } from '../../ui/list-item/list-item.component';
+import { ItemRowDirective } from '../../directive/item-row.directive';
 
 @Component({
   selector: 'app-teacher-card',
@@ -22,10 +23,11 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       (addNew)="addTeacher()">
       <img ngSrc="assets/img/teacher.png" priority height="200" width="200" />
 
-      <ng-template #itemRow let-teacher>
+      <ng-template [itemRow]="teachers()" let-teacher let-character="character">
         <app-list-item
-          [name]="teacher.firstName"
-          (delete)="deleteTeacher(teacher.id)" />
+          (delete)="deleteTeacher(teacher.id)" >
+          {{character}}{{ teacher.firstName }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
@@ -36,7 +38,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       }
     `,
   ],
-  imports: [CardComponent, NgOptimizedImage, ListItemComponent],
+  imports: [CardComponent, NgOptimizedImage, ListItemComponent, ItemRowDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeacherCardComponent implements OnInit {

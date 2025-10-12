@@ -9,7 +9,7 @@ import {
   selector: 'app-list-item',
   template: `
     <div class="border-grey-300 flex justify-between border px-2 py-1">
-      {{ name() }}
+      <ng-content />
       <button (click)="delete.emit()">
         <img class="h-5" src="assets/svg/trash.svg" />
       </button>
@@ -18,7 +18,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListItemComponent {
-  public readonly name = input.required<string>();
 
   public readonly delete = output();
 }

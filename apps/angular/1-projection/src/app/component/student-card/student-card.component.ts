@@ -12,6 +12,7 @@ import {
 import { StudentStore } from '../../data-access/student.store';
 import { CardComponent } from '../../ui/card/card.component';
 import { ListItemComponent } from '../../ui/list-item/list-item.component';
+import { ItemRowDirective } from '../../directive/item-row.directive';
 
 @Component({
   selector: 'app-student-card',
@@ -22,10 +23,11 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       (addNew)="addStudent()">
       <img ngSrc="assets/img/student.webp" height="200" width="200" />
 
-      <ng-template #itemRow let-student>
+      <ng-template [itemRow]="students()" let-student>
         <app-list-item
-          [name]="student.firstName"
-          (delete)="deleteStudent(student.id)" />
+          (delete)="deleteStudent(student.id)" >
+          #{{ student.firstName }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
@@ -36,7 +38,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       }
     `,
   ],
-  imports: [CardComponent, NgOptimizedImage, ListItemComponent],
+  imports: [CardComponent, NgOptimizedImage, ListItemComponent, ItemRowDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentCardComponent implements OnInit {

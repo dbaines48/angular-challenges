@@ -10,10 +10,10 @@ import {
   FakeHttpService,
   randomCity,
 } from '../../data-access/fake-http.service';
-import { CardType } from '../../model/card.model';
 import { City } from '../../model/city.model';
 import { CardComponent } from '../../ui/card/card.component';
 import { ListItemComponent } from '../../ui/list-item/list-item.component';
+import { ItemRowDirective } from '../../directive/item-row.directive';
 
 @Component({
   selector: 'app-city-card',
@@ -24,8 +24,10 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       (addNew)="addCity()">
       <img ngSrc="assets/img/city.png" height="200" width="200" />
 
-      <ng-template #itemRow let-city>
-        <app-list-item [name]="city.name" (delete)="deleteCity(city.id)" />
+      <ng-template [itemRow]="cities()" let-city>
+        <app-list-item (delete)="deleteCity(city.id)">
+          !{{ city.name }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
@@ -36,7 +38,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       }
     `,
   ],
-  imports: [CardComponent, NgOptimizedImage, ListItemComponent],
+  imports: [CardComponent, NgOptimizedImage, ListItemComponent, ItemRowDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CityCardComponent implements OnInit {
