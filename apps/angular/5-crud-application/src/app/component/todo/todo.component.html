@@ -1,0 +1,15 @@
+@let item = todo();
+@let disableButtons = store.actionInProgress();
+
+<div class="todo__title">{{ item.id }} | {{ item.title }}</div>
+
+<button type="button" [disabled]="disableButtons" (click)="randomUpdate()">🔄</button>
+<button type="button" [disabled]="disableButtons" (click)="toggleCompleted()">
+  @if (item.completed) {
+    🔵
+  } @else {
+    🟢
+  }
+</button>
+
+<button type="button" [disabled]="disableButtons" (click)="delete()">🗑️</button>

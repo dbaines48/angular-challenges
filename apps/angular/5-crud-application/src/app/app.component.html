@@ -1,0 +1,39 @@
+<div class="app-title">
+  <span class="title">✅ CRUD Application</span>
+  <button
+    type="button"
+    [disabled]="store.actionInProgress()"
+    (click)="store.loadTodos()">
+    Reload
+  </button>
+</div>
+<hr />
+
+@if (store.loadingTodos()) {
+  <div class="loader"></div>
+} @else if (todos().length) {
+  <div class="todos-grid">
+    <div class="todos-grid__header pending">
+      <h3>🔵 Pending ({{ pendingTodos().length }})</h3>
+      <button
+        type="button"
+        [disabled]="store.actionInProgress()"
+        (click)="store.createTodo()">
+        Add New
+      </button>
+    </div>
+    <div class="todos-grid__header completed">
+      <h3>🟢 Completed ({{ completedTodos().length }})</h3>
+    </div>
+    <div class="todos-grid__list pending">
+      <app-todos [todos]="pendingTodos()"></app-todos>
+    </div>
+    <div class="todos-grid__list completed">
+      <app-todos [todos]="completedTodos()"></app-todos>
+    </div>
+  </div>
+}
+
+@if (store.error()) {
+  <div class="error-banner">{{ store.error() }}</div>
+}
