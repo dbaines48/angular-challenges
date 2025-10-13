@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TodoService } from '../../data-access/todo.service';
-import { TodosStore } from '../../data-access/todo.store';
-import { Todo } from '../../model/todo.model';
-import { TodosComponent } from './todos.component';
-describe(TodosComponent.name, () => {
-  let fixture: ComponentFixture<TodosComponent>;
-  let component: TodosComponent;
+import { of } from 'rxjs';
+import { AppComponent } from './app.component';
+import { TodoService } from './data-access/todo.service';
+import { TodosStore } from './data-access/todo.store';
+import { Todo } from './model/todo.model';
+describe(AppComponent.name, () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent;
+  let todoServiceSpy: jest.Mocked<TodoService>;
 
   const pendingTodo1: Todo = {
     id: 1,
@@ -40,12 +42,12 @@ describe(TodosComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TodosComponent],
+      imports: [AppComponent],
       providers: [
         {
           provide: TodoService,
           useValue: {
-            fetchAll: jest.fn(),
+            fetchAll: jest.fn().mockReturnValue(of(todos)),
             create: jest.fn(),
             update: jest.fn(),
             delete: jest.fn(),
@@ -55,9 +57,9 @@ describe(TodosComponent.name, () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TodosComponent);
-    fixture.componentRef.setInput('todos', todos);
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    todoServiceSpy = TestBed.inject(TodoService) as jest.Mocked<TodoService>;
 
     fixture.detectChanges();
   });
