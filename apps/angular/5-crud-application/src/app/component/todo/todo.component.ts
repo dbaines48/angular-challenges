@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +7,7 @@ import {
 } from '@angular/core';
 import { randText } from '@ngneat/falso';
 import { TodosStore } from '../../data-access/todo.store';
+import { TodoDirective } from '../../directives/todo.directive';
 import { Todo } from '../../model/todo.model';
 
 @Component({
@@ -15,6 +17,7 @@ import { Todo } from '../../model/todo.model';
     class: 'todo',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet, TodoDirective],
 })
 export class TodoComponent {
   store = inject(TodosStore);

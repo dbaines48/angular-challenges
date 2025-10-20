@@ -38,12 +38,18 @@ export const TodosStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withEntities<Todo>(),
-  withComputed(({ loadingTodos, performingAction }) => ({
+  withComputed(({ loadingTodos, performingAction, entities }) => ({
     actionInProgress: computed(() => {
       const loading = loadingTodos();
       const performing = performingAction();
       return loading || performing;
     }),
+    pendingTodos: computed(() =>
+      entities().filter(({ completed }) => !completed),
+    ),
+    completedTodos: computed(() =>
+      entities().filter(({ completed }) => completed),
+    ),
   })),
   withMethods((store, todoService = inject(TodoService)) => ({
     loadTodos: rxMethod<void>(

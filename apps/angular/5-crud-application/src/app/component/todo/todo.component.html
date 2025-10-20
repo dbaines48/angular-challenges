@@ -1,9 +1,11 @@
-@let item = todo();
+<!-- @let item = todo();
 @let disableButtons = store.actionInProgress();
 
 <div class="todo__title">{{ item.id }} | {{ item.title }}</div>
 
-<button type="button" [disabled]="disableButtons" (click)="randomUpdate()">🔄</button>
+<button type="button" [disabled]="disableButtons" (click)="randomUpdate()">
+  🔄
+</button>
 <button type="button" [disabled]="disableButtons" (click)="toggleCompleted()">
   @if (item.completed) {
     🔵
@@ -12,4 +14,30 @@
   }
 </button>
 
-<button type="button" [disabled]="disableButtons" (click)="delete()">🗑️</button>
+<button type="button" [disabled]="disableButtons" (click)="delete()">🗑️</button> -->
+
+@let disableButtons = store.actionInProgress();
+<ng-container *ngTemplateOutlet="todoTemplate; context: { $implicit: todo, disabled: disableButtons, sergio: 'hola' }"></ng-container>
+
+
+<ng-template #todoTemplate [todo]="todo" let-todo let-disable="disabled" let-abraham="moises">
+  @let item = todo();
+
+  {{ abraham }}
+  <div class="todo__title">{{ item.id }} | {{ item.title }}</div>
+
+  <button type="button" [disabled]="disable" (click)="randomUpdate()">
+    🔄
+  </button>
+  <button type="button" [disabled]="disable" (click)="toggleCompleted()">
+    @if (item.completed) {
+      🔵
+    } @else {
+      🟢
+    }
+  </button>
+
+  <button type="button" [disabled]="disable" (click)="delete()">
+    🗑️
+  </button>
+</ng-template>
